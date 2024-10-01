@@ -29,3 +29,12 @@ export enum MutationMethod {
   Inversion = 'Inversion',
   Reversing = 'Reversing',
 }
+
+export type PopulationSettings = {
+  populationSize: number
+  upperBound: number
+  lowerBound: number
+  dimensions: number
+  mutationRate: number
+  crossoverRate: number
+}
