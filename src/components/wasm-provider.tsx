@@ -20,6 +20,7 @@ interface HeuristicAlgorithms {
     crossoverRate: number,
     maxIterations: number
   ) => VectorClassHandler<Generation>
+  worker_manager: any
 }
 
 interface IWasmContext {

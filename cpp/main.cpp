@@ -1,6 +1,7 @@
 
 // #include <emscripten/emscripten.h>
 #include <emscripten/bind.h>
+#include <emscripten/wasm_worker.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -232,6 +233,15 @@ vector<Generation> runGeneticAlgorithm(
   return generations;
 }
 
+void run_in_worker() {
+  printf("Hello from Wasm Worker!\n");
+}
+
+void worker_manager() {
+  emscripten_wasm_worker_t worker = emscripten_malloc_wasm_worker(/*stackSize: */1024);
+  emscripten_wasm_worker_post_function_v(worker, run_in_worker);
+}
+
 EMSCRIPTEN_BINDINGS(my_module) {
   register_vector<int>("VectorInt");
   register_vector<double>("VectorDouble");
@@ -243,5 +253,6 @@ EMSCRIPTEN_BINDINGS(my_module) {
     .field("index", &Generation::index);
 
   emscripten::function("runGeneticAlgorithm", &runGeneticAlgorithm);
+  emscripten::function("worker_manager", &worker_manager);
 }
 

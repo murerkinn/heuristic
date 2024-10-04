@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build:wasm": "emcc -lembind -O3 cpp/main.cpp -s MODULARIZE -s WASM=1 -s EXPORT_NAME='HA' -s ENVIRONMENT=web -o ./public/wasm/ha.js"
+    "build:wasm": "emcc -lembind -O3 cpp/main.cpp -s WASM_WORKERS -s MODULARIZE -s WASM=1 -s EXPORT_NAME='HA' -s ENVIRONMENT=web,worker -o ./public/wasm/ha.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

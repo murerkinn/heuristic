@@ -132,6 +132,14 @@ export default function PopulationSettings() {
     setGenerations(generations)
   }, [populationSettings, ha, setGenerations])
 
+  const handleRockstar = useCallback(() => {
+    console.time('rockstar')
+
+    ha.current.worker_manager()
+
+    console.timeEnd('rockstar')
+  }, [ha])
+
   return (
     <div>
       <h2 className="font-semibold text-xl mb-6">Population Settings</h2>
@@ -233,6 +241,9 @@ export default function PopulationSettings() {
             Wasm
           </Button>
           <Button type="submit">Save</Button>
+          <Button type="button" onClick={handleRockstar}>
+            rockstar
+          </Button>
         </div>
       </form>
     </div>
