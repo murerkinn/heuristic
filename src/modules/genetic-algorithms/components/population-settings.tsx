@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
+// import { toast } from 'sonner'
 import * as yup from 'yup'
 
 import { Button } from '@/components/ui/button'
@@ -9,6 +9,7 @@ import { FormInput } from '@/components/ui/form-input'
 
 import useGeneticAlgorithmsStore from '../store'
 import type { PopulationSettings as PopulationSettingsType } from '../types'
+import { useWasmContext } from '@/components/wasm-provider'
 
 const schema = yup
   .object({
@@ -40,12 +41,25 @@ const schema = yup
       .min(0, 'Mutation rate must be between 0 and 1')
       .max(1, 'Mutation rate must be between 0 and 1')
       .required(),
+    maxIterations: yup
+      .number()
+      .min(1, 'Max iterations must be at least 1')
+      .max(1000000, 'Max iterations must be at most 1000')
+      .required('Max iterations is required'),
   })
   .required()
 
 export default function PopulationSettings() {
-  const { populationSettings, setPopulationSettings, generatePopulation } =
-    useGeneticAlgorithmsStore()
+  const {
+    populationSettings,
+    mutationMethod,
+    selectionMethod,
+    crossoverMethod,
+    fitnessFunction,
+    setPopulationSettings,
+    setGenerations,
+  } = useGeneticAlgorithmsStore()
+  const { ha } = useWasmContext()
 
   const {
     register,
@@ -57,14 +71,66 @@ export default function PopulationSettings() {
     reValidateMode: 'onChange',
   })
 
+  const handleWorker = useCallback(() => {
+    const worker = new Worker(
+      new URL('../../../../workers/run-algorithm.ts', import.meta.url)
+    )
+
+    console.time('worker')
+
+    worker.postMessage({
+      populationSettings,
+      mutationMethod,
+      selectionMethod,
+      crossoverMethod,
+      fitnessFunction,
+    })
+
+    worker.onmessage = e => {
+      console.timeEnd('worker')
+      setGenerations(e.data)
+    }
+
+    worker.onerror = e => {
+      console.log('e', e)
+    }
+  }, [
+    mutationMethod,
+    selectionMethod,
+    crossoverMethod,
+    fitnessFunction,
+    populationSettings,
+    setGenerations,
+  ])
+
   const onSubmit = useCallback(
-    (values: PopulationSettingsType) => {
+    async (values: PopulationSettingsType) => {
       setPopulationSettings(values)
-      generatePopulation()
-      toast.success('Population generated successfully')
     },
-    [setPopulationSettings, generatePopulation]
+    [setPopulationSettings]
   )
+
+  const handleWasm = useCallback(() => {
+    console.time('runGeneticAlgorithm')
+
+    const val = ha.current.runGeneticAlgorithm(
+      populationSettings.populationSize,
+      populationSettings.dimensions,
+      populationSettings.upperBound,
+      populationSettings.lowerBound,
+      populationSettings.mutationRate,
+      populationSettings.crossoverRate,
+      populationSettings.maxIterations
+    )
+
+    console.timeEnd('runGeneticAlgorithm')
+
+    console.log('val', val.size())
+
+    const generations = Array.from({ length: val.size() }, (_, i) => val.get(i))
+
+    setGenerations(generations)
+  }, [populationSettings, ha, setGenerations])
 
   return (
     <div>
@@ -145,10 +211,28 @@ export default function PopulationSettings() {
             placeholder="e.g. 20"
             error={errors.mutationRate?.message}
           />
+
+          <FormInput
+            {...register('maxIterations')}
+            id="max-iterations"
+            label="Max Iterations"
+            type="number"
+            // min={0}
+            // max={1}
+            step={0.1}
+            placeholder="e.g. 20"
+            error={errors.maxIterations?.message}
+          />
         </div>
 
-        <div className="grid">
-          <Button className="ml-auto">Generate Population</Button>
+        <div className="flex flex-row items-center justify-end gap-1">
+          <Button type="button" onClick={handleWorker}>
+            Worker
+          </Button>
+          <Button type="button" onClick={handleWasm}>
+            Wasm
+          </Button>
+          <Button type="submit">Save</Button>
         </div>
       </form>
     </div>

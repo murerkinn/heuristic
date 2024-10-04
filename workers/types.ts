@@ -43,9 +43,3 @@ export type PopulationSettings = {
   crossoverRate: number
   maxIterations: number
 }
-
-export type Generation = {
-  index: number
-  bestIndividual: number[]
-  bestFitness: number
-}
