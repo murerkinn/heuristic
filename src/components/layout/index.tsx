@@ -43,10 +43,10 @@ export default function Layout({ children }: LayoutProps) {
               </Button>
             </TooltipTrigger>
             <TooltipContent side="right" sideOffset={5}>
-              Heuristic Algorithms Playground
+              Playground
             </TooltipContent>
           </Tooltip>
-          <Tooltip>
+          {/* <Tooltip>
             <TooltipTrigger asChild>
               <Button
                 variant="ghost"
@@ -101,7 +101,7 @@ export default function Layout({ children }: LayoutProps) {
             <TooltipContent side="right" sideOffset={5}>
               Settings
             </TooltipContent>
-          </Tooltip>
+          </Tooltip> */}
         </nav>
 
         <nav className="mt-auto grid gap-1 p-2">

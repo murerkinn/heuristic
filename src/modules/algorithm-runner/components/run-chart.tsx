@@ -1,5 +1,3 @@
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
-
 import { Card, CardContent } from '@/components/ui/card'
 import {
   type ChartConfig,
@@ -7,8 +5,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
-import useGeneticAlgorithmsStore from '../store'
-import { useMemo } from 'react'
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
 
 const chartConfig = {
   desktop: {
@@ -17,34 +14,14 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export default function Curve() {
-  const { generations } = useGeneticAlgorithmsStore()
-
-  const values = useMemo(() => {
-    const arr = []
-
-    for (
-      let i = 0;
-      i < generations.length;
-      i += Math.floor(generations.length / 10)
-    ) {
-      arr.push(generations[i])
-    }
-
-    return arr
-  }, [generations])
-
-  if (generations.length === 0) {
-    return null
-  }
-
+export default function RunChart() {
   return (
     <Card>
       <CardContent>
         <ChartContainer config={chartConfig}>
           <LineChart
             accessibilityLayer
-            data={values}
+            data={[]}
             margin={{
               left: 12,
               right: 12,
