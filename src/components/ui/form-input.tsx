@@ -20,7 +20,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
         </div>
 
         {helperText && <p className="text-sm text-muted">{helperText}</p>}
-        {error && <p className="text-xs text-destructive">{error}</p>}
+        <p className="text-xs text-destructive">{error}</p>
       </div>
     )
   }
