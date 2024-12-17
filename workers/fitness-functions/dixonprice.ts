@@ -1,4 +1,4 @@
-import tf from '@tensorflow/tfjs'
+import * as tf from '@tensorflow/tfjs'
 
 export default function dixonprice(x: tf.Tensor<tf.Rank>) {
   const n = x.shape[0]

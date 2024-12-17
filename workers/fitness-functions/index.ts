@@ -7,57 +7,66 @@ import schwefel from './schwefel'
 import sphere from './sphere'
 import zakharov from './zakharov'
 
+export enum FitnessFunction {
+  Ackley = 'ackley',
+  DixonPrice = 'dixonprice',
+  Griewank = 'griewank',
+  Rastrigin = 'rastrigin',
+  Rosenbrock = 'rosenbrock',
+  Schwefel = 'schwefel',
+  Sphere = 'sphere',
+  Zakharov = 'zakharov',
+}
+
 const FitnessFunctions = {
-  ackley: {
+  [FitnessFunction.Ackley]: {
     name: 'Ackley',
     function: ackley,
     lowerBound: -32.768,
     upperBound: 32.768,
   },
-  dixonprice: {
+  [FitnessFunction.DixonPrice]: {
     name: 'Dixon Price',
     function: dixonprice,
     lowerBound: -10,
     upperBound: 10,
   },
-  griewank: {
+  [FitnessFunction.Griewank]: {
     name: 'Griewank',
     function: griewank,
     lowerBound: -600,
     upperBound: 600,
   },
-  rastrigin: {
+  [FitnessFunction.Rastrigin]: {
     name: 'Rastrigin',
     function: rastrigin,
     lowerBound: -5.12,
     upperBound: 5.12,
   },
-  rosenbrock: {
+  [FitnessFunction.Rosenbrock]: {
     name: 'Rosenbrock',
     function: rosenbrock,
     lowerBound: -2048,
     upperBound: 2048,
   },
-  schwefel: {
+  [FitnessFunction.Schwefel]: {
     name: 'Schwefel',
     function: schwefel,
     lowerBound: -500,
     upperBound: 500,
   },
-  sphere: {
+  [FitnessFunction.Sphere]: {
     name: 'Sphere',
     function: sphere,
     lowerBound: -5.12,
     upperBound: 5.12,
   },
-  zakharov: {
+  [FitnessFunction.Zakharov]: {
     name: 'Zakharov',
     function: zakharov,
     lowerBound: -5,
     upperBound: 10,
   },
 }
-
-export type FitnessFunction = keyof typeof FitnessFunctions
 
 export default FitnessFunctions

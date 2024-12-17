@@ -1,4 +1,4 @@
-import tf from '@tensorflow/tfjs'
+import * as tf from '@tensorflow/tfjs'
 
 export default function griewank(x: tf.Tensor<tf.Rank>, from = 4000) {
   // n = len(x)

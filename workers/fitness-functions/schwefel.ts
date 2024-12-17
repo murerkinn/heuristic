@@ -1,4 +1,4 @@
-import tf from '@tensorflow/tfjs'
+import * as tf from '@tensorflow/tfjs'
 
 export default function schwefel(x: tf.Tensor<tf.Rank>) {
   return tf.tidy(() => {
