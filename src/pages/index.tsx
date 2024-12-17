@@ -5,9 +5,7 @@ export default function HomePage() {
   return (
     <>
       <Layout>
-        <div className="p-4">
-          <RunnerTabs />
-        </div>
+        <RunnerTabs />
       </Layout>
     </>
   )

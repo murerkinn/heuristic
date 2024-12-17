@@ -143,7 +143,7 @@ export default function Layout({ children }: LayoutProps) {
           </Button>
         </header>
 
-        <main className="flex-1 overflow-auto">{children}</main>
+        <main className="flex-1 overflow-auto p-4">{children}</main>
       </div>
     </div>
   )
