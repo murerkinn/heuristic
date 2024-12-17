@@ -1,0 +1,8 @@
+{
+  "summary": "Özet",
+  "algorithms": {
+    "genetic-algorithm": {
+      "name": "Genetik Algoritma"
+    }
+  }
+}
