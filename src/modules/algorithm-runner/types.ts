@@ -14,6 +14,7 @@ export enum AlgorithmRunState {
 interface AlgorithmRunBase {
   bestFitness: number
   state: AlgorithmRunState
+  convergenceCurve: number[]
 }
 
 interface AlgorithmRunGeneticAlgorithm extends AlgorithmRunBase {
@@ -50,4 +51,5 @@ export type AlgorithmRun =
 
 export interface AlgorithmRunnerStore {
   runs: AlgorithmRun[]
+  startRun: (run: AlgorithmRun) => void
 }

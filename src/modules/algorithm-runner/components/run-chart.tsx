@@ -6,6 +6,7 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart'
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
+import { AlgorithmRun } from '../types'
 
 const chartConfig = {
   desktop: {
@@ -14,21 +15,36 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export default function RunChart() {
+interface RunChartProps {
+  run: AlgorithmRun
+}
+
+export default function RunChart({ run }: RunChartProps) {
   return (
     <Card>
-      <CardContent>
+      <CardContent className="p-4">
         <ChartContainer config={chartConfig}>
           <LineChart
             accessibilityLayer
-            data={[]}
+            data={run.convergenceCurve}
             margin={{
               left: 12,
               right: 12,
-            }}>
+            }}
+          >
             <CartesianGrid vertical={false} />
-            <XAxis dataKey="index" tickLine={false} axisLine={false} />
-            <YAxis dataKey="bestFitness" tickLine={false} axisLine={false} />
+            <XAxis
+              dataKey="index"
+              label="Iteration"
+              tickLine={false}
+              axisLine={false}
+            />
+            <YAxis
+              dataKey="bestFitness"
+              label="Fitness"
+              tickLine={false}
+              axisLine={false}
+            />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
@@ -36,6 +52,7 @@ export default function RunChart() {
             <Line
               dataKey="bestFitness"
               type="natural"
+              isAnimationActive={false}
               stroke="var(--color-desktop)"
               strokeWidth={2}
               dot={false}

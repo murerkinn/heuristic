@@ -8,7 +8,7 @@ import HarmonySearchSettings from '@/modules/harmony-search/components/harmony-s
 
 interface AlgorithmSettingsProps {
   algorithm: Algorithm
-  onSubmit: () => void
+  onSubmit: (payload: any) => void
 }
 
 export default function AlgorithmSettings({

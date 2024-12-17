@@ -3,12 +3,13 @@ import RunChart from './run-chart'
 
 interface RunnerTabPanelProps {
   run: AlgorithmRun
+  runIndex: number
 }
 
 export default function RunnerTabPanel({ run }: RunnerTabPanelProps) {
   return (
     <div>
-      {run.state === AlgorithmRunState.Completed ? <RunChart /> : null}
+      <RunChart run={run} />
 
       <div></div>
     </div>
