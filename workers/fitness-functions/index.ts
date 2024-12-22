@@ -12,13 +12,20 @@ export enum FitnessFunction {
   DixonPrice = 'dixonprice',
   Griewank = 'griewank',
   Rastrigin = 'rastrigin',
-  Rosenbrock = 'rosenbrock',
+  // Rosenbrock = 'rosenbrock',
   Schwefel = 'schwefel',
   Sphere = 'sphere',
-  Zakharov = 'zakharov',
+  // Zakharov = 'zakharov',
 }
 
-const FitnessFunctions = {
+export type FitnessFunctionObj = {
+  name: string
+  function: (...args: any) => number
+  lowerBound: number
+  upperBound: number
+}
+
+const FitnessFunctions: Record<FitnessFunction, FitnessFunctionObj> = {
   [FitnessFunction.Ackley]: {
     name: 'Ackley',
     function: ackley,
@@ -43,12 +50,12 @@ const FitnessFunctions = {
     lowerBound: -5.12,
     upperBound: 5.12,
   },
-  [FitnessFunction.Rosenbrock]: {
-    name: 'Rosenbrock',
-    function: rosenbrock,
-    lowerBound: -2048,
-    upperBound: 2048,
-  },
+  // [FitnessFunction.Rosenbrock]: {
+  //   name: 'Rosenbrock',
+  //   function: rosenbrock,
+  //   lowerBound: -2048,
+  //   upperBound: 2048,
+  // },
   [FitnessFunction.Schwefel]: {
     name: 'Schwefel',
     function: schwefel,
@@ -61,12 +68,12 @@ const FitnessFunctions = {
     lowerBound: -5.12,
     upperBound: 5.12,
   },
-  [FitnessFunction.Zakharov]: {
-    name: 'Zakharov',
-    function: zakharov,
-    lowerBound: -5,
-    upperBound: 10,
-  },
+  // [FitnessFunction.Zakharov]: {
+  //   name: 'Zakharov',
+  //   function: zakharov,
+  //   lowerBound: -5,
+  //   upperBound: 10,
+  // },
 }
 
 export default FitnessFunctions
