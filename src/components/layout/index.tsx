@@ -1,13 +1,4 @@
-import {
-  Book,
-  Bot,
-  Code2,
-  LifeBuoy,
-  Settings2,
-  SquareTerminal,
-  SquareUser,
-  Triangle,
-} from 'lucide-react'
+import { SquareTerminal, Triangle } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -16,12 +7,17 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { GitHubLogoIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
+import { cn } from '@/lib/utils'
+import { useRouter } from 'next/router'
 
 interface LayoutProps {
   children: React.ReactNode
 }
 
 export default function Layout({ children }: LayoutProps) {
+  const { route } = useRouter()
+
   return (
     <div className="grid h-screen w-full pl-[53px]">
       <aside className="inset-y fixed  left-0 z-20 flex h-full flex-col border-r">
@@ -34,84 +30,35 @@ export default function Layout({ children }: LayoutProps) {
         <nav className="grid gap-1 p-2">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-lg bg-muted"
-                aria-label="Playground">
-                <SquareTerminal className="size-5" />
-              </Button>
+              <Link href="/">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={cn('rounded-lg', {
+                    'bg-muted': route === '/',
+                  })}
+                  aria-label="Playground"
+                >
+                  <SquareTerminal className="size-5" />
+                </Button>
+              </Link>
             </TooltipTrigger>
+
             <TooltipContent side="right" sideOffset={5}>
               Playground
             </TooltipContent>
           </Tooltip>
-          {/* <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-lg"
-                aria-label="Models">
-                <Bot className="size-5" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="right" sideOffset={5}>
-              Models
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-lg"
-                aria-label="API">
-                <Code2 className="size-5" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="right" sideOffset={5}>
-              API
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-lg"
-                aria-label="Documentation">
-                <Book className="size-5" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="right" sideOffset={5}>
-              Documentation
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-lg"
-                aria-label="Settings">
-                <Settings2 className="size-5" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="right" sideOffset={5}>
-              Settings
-            </TooltipContent>
-          </Tooltip> */}
         </nav>
 
-        <nav className="mt-auto grid gap-1 p-2">
+        {/* <nav className="mt-auto grid gap-1 p-2">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
                 className="mt-auto rounded-lg"
-                aria-label="Help">
+                aria-label="Help"
+              >
                 <LifeBuoy className="size-5" />
               </Button>
             </TooltipTrigger>
@@ -119,7 +66,7 @@ export default function Layout({ children }: LayoutProps) {
               Help
             </TooltipContent>
           </Tooltip>
-        </nav>
+        </nav> */}
       </aside>
 
       <div className="flex flex-col">
@@ -132,11 +79,13 @@ export default function Layout({ children }: LayoutProps) {
             variant="outline"
             size="sm"
             className="ml-auto gap-1.5 text-sm"
-            asChild>
+            asChild
+          >
             <a
               href="https://github.com/murerkinn/heuristic"
               target="_blank"
-              rel="noopener noreferrer">
+              rel="noopener noreferrer"
+            >
               <GitHubLogoIcon className="size-3.5" />
               GitHub
             </a>
