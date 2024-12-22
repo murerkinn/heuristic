@@ -1,4 +1,3 @@
-import type { Generation } from '@/modules/genetic-algorithms/types'
 import { createContext, useContext, useEffect, useRef } from 'react'
 
 type CustomWindow = typeof window & {
@@ -19,7 +18,7 @@ interface HeuristicAlgorithms {
     mutationRate: number,
     crossoverRate: number,
     maxIterations: number
-  ) => VectorClassHandler<Generation>
+  ) => VectorClassHandler<any>
   worker_manager: any
 }
 
@@ -29,11 +28,7 @@ interface IWasmContext {
 
 const WasmContext = createContext<IWasmContext | null>(null)
 
-const WasmProvider = ({
-  children,
-}: {
-  children: React.ReactNode
-}) => {
+const WasmProvider = ({ children }: { children: React.ReactNode }) => {
   const ha = useRef<HeuristicAlgorithms>()
 
   useEffect(() => {
@@ -56,7 +51,8 @@ const WasmProvider = ({
 
   return (
     <WasmContext.Provider
-      value={{ ha: ha as React.MutableRefObject<HeuristicAlgorithms> }}>
+      value={{ ha: ha as React.MutableRefObject<HeuristicAlgorithms> }}
+    >
       {children}
     </WasmContext.Provider>
   )

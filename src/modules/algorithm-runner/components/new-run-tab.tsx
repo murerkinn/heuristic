@@ -17,6 +17,7 @@ export default function NewRunTab() {
       payload,
       state: AlgorithmRunState.Pending,
       bestFitness: 0,
+      convergenceCurve: [],
     })
   }
 

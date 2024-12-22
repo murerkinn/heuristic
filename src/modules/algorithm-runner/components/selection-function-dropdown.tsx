@@ -7,6 +7,8 @@ export default function SelectionFunctionDropdown() {
       label=""
       placeholder=""
       options={[]}
+      value=""
+      onChange={() => {}}
     />
   )
 }
