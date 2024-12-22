@@ -1,8 +1,10 @@
 import { Button } from '@/components/ui/button'
 import { FormInput } from '@/components/ui/form-input'
+import FitnessFunctionDropdown from '@/modules/algorithm-runner/components/fitness-function-dropdown'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { FitnessFunction } from 'workers/fitness-functions'
 import * as yup from 'yup'
 
 const schema = yup
@@ -29,7 +31,11 @@ type ParticleSwarmOptimizationSettingsValues = yup.InferType<typeof schema>
 
 interface ParticleSwarmOptimizationSettingsProps {
   values?: ParticleSwarmOptimizationSettingsValues
-  onSubmit?: (values: ParticleSwarmOptimizationSettingsValues) => void
+  onSubmit?: (
+    values: ParticleSwarmOptimizationSettingsValues & {
+      fitnessFunction: FitnessFunction
+    }
+  ) => void
 }
 
 export default function ParticleSwarmOptimizationSettings({
@@ -45,12 +51,16 @@ export default function ParticleSwarmOptimizationSettings({
     defaultValues: values,
     reValidateMode: 'onChange',
   })
+  const [fitnessFunction, setFitnessFunction] = useState(FitnessFunction.Ackley)
 
   const onSubmit = useCallback(
     async (values: ParticleSwarmOptimizationSettingsValues) => {
       if (!onSubmit_) return
 
-      onSubmit_(values)
+      onSubmit_({
+        ...values,
+        fitnessFunction,
+      })
     },
     [onSubmit_]
   )
@@ -94,6 +104,13 @@ export default function ParticleSwarmOptimizationSettings({
           // max={50}
           step={1}
           error={errors.maxIterations?.message as string}
+        />
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-4">
+        <FitnessFunctionDropdown
+          value={fitnessFunction}
+          onChange={setFitnessFunction}
         />
       </div>
 
