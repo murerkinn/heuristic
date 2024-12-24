@@ -11,6 +11,13 @@ import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -18,7 +25,7 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const { route } = useRouter()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   return (
     <div className="grid h-screen w-full pl-[53px]">
@@ -77,21 +84,36 @@ export default function Layout({ children }: LayoutProps) {
             Heuristic Algorithms Playground
           </h1>
 
-          <Button
-            variant="outline"
-            size="sm"
-            className="ml-auto gap-1.5 text-sm"
-            asChild
-          >
-            <a
-              href="https://github.com/murerkinn/heuristic"
-              target="_blank"
-              rel="noopener noreferrer"
+          <div className="ml-auto flex items-center gap-2">
+            <Select
+              value={i18n.language}
+              onValueChange={val => i18n.changeLanguage(val)}
             >
-              <GitHubLogoIcon className="size-3.5" />
-              GitHub
-            </a>
-          </Button>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Theme" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="en">English</SelectItem>
+                <SelectItem value="tr">Türkçe</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1.5 text-sm"
+              asChild
+            >
+              <a
+                href="https://github.com/murerkinn/heuristic"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <GitHubLogoIcon className="size-3.5" />
+                GitHub
+              </a>
+            </Button>
+          </div>
         </header>
 
         <main className="flex-1 overflow-auto p-4">{children}</main>
