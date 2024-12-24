@@ -1,5 +1,7 @@
 import * as tf from '@tensorflow/tfjs'
-import FitnessFunctions, { FitnessFunction } from 'workers/fitness-functions'
+import FitnessFunctions, {
+  type FitnessFunction,
+} from 'workers/fitness-functions'
 
 export type GrayWolfOptimizationPayload = {
   dimension: number
@@ -7,13 +9,6 @@ export type GrayWolfOptimizationPayload = {
   numberOfGenerations: number
   a: number
   fitnessFunction: FitnessFunction
-}
-
-function transposeConvergenceCurve(curve: number[]) {
-  return curve.map((bestFitness, index) => ({
-    index,
-    bestFitness,
-  }))
 }
 
 export default function grayWolfOptimization(
@@ -27,18 +22,18 @@ export default function grayWolfOptimization(
     populationSize,
     numberOfGenerations,
     a: initialAlpha,
-    fitnessFunction: fitnessFunctionName = FitnessFunction.Ackley,
+    fitnessFunction: fitnessFunctionName,
   } = payload
   const fitnessFunction = FitnessFunctions[fitnessFunctionName]
 
   let alphaPos = Array(dimension).fill(0)
-  let alphaScore = Infinity
+  let alphaScore = Number.POSITIVE_INFINITY
 
   let betaPos = Array(dimension).fill(0)
-  let betaScore = Infinity
+  let betaScore = Number.POSITIVE_INFINITY
 
   let deltaPos = Array(dimension).fill(0)
-  let deltaScore = Infinity
+  let deltaScore = Number.POSITIVE_INFINITY
 
   const lb = Array(dimension).fill(fitnessFunction.lowerBound)
   const ub = Array(dimension).fill(fitnessFunction.upperBound)
@@ -50,7 +45,7 @@ export default function grayWolfOptimization(
     )
   )
 
-  const convergenceCurve = Array(numberOfGenerations).fill(0)
+  const convergenceCurve = []
 
   for (let l = 0; l < numberOfGenerations; l++) {
     for (let i = 0; i < populationSize; i++) {
@@ -114,18 +109,16 @@ export default function grayWolfOptimization(
       }
     }
 
-    convergenceCurve[l] = alphaScore
+    convergenceCurve.push(alphaScore)
 
     onIteration({
-      convergenceCurve: transposeConvergenceCurve(
-        convergenceCurve.slice(0, l + 1)
-      ),
+      convergenceCurve,
       state: 'running',
     })
   }
 
   onIteration({
-    convergenceCurve: transposeConvergenceCurve(convergenceCurve),
+    convergenceCurve,
     state: 'completed',
   })
 }
