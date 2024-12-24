@@ -1,5 +1,7 @@
 import * as tf from '@tensorflow/tfjs'
-import FitnessFunctions, { FitnessFunction } from 'workers/fitness-functions'
+import FitnessFunctions, {
+  type FitnessFunction,
+} from 'workers/fitness-functions'
 
 export type ParticleSwarmOptimizationPayload = {
   dimension: number
@@ -40,13 +42,13 @@ export default function particleSwarmOptimization(
     Array(dimension).fill(0)
   )
 
-  const pBestScore = Array(populationSize).fill(Infinity)
+  const pBestScore = Array(populationSize).fill(Number.POSITIVE_INFINITY)
   const pBest = Array.from({ length: populationSize }, () =>
     Array(dimension).fill(0)
   )
 
   let gBest = Array(dimension).fill(0)
-  let gBestScore = Infinity
+  let gBestScore = Number.POSITIVE_INFINITY
 
   const pos = Array.from({ length: populationSize }, () =>
     Array.from(
@@ -55,7 +57,7 @@ export default function particleSwarmOptimization(
     )
   )
 
-  const convergenceCurve = Array(maxIterations).fill(0)
+  const convergenceCurve = []
 
   for (let l = 0; l < maxIterations; l++) {
     for (let i = 0; i < populationSize; i++) {
@@ -100,12 +102,10 @@ export default function particleSwarmOptimization(
       }
     }
 
-    convergenceCurve[l] = gBestScore
+    convergenceCurve.push(gBestScore)
 
     onIteration({
-      convergenceCurve: transposeConvergenceCurve(
-        convergenceCurve.slice(0, l + 1)
-      ),
+      convergenceCurve: transposeConvergenceCurve(convergenceCurve),
       state: 'running',
     })
   }
