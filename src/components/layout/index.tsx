@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select'
+import { useTheme } from 'next-themes'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -26,6 +27,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const { route } = useRouter()
   const { t, i18n } = useTranslation()
+  const { theme, setTheme } = useTheme()
 
   return (
     <div className="grid h-screen w-full pl-[53px]">
@@ -85,6 +87,16 @@ export default function Layout({ children }: LayoutProps) {
           </h1>
 
           <div className="ml-auto flex items-center gap-2">
+            <Select onValueChange={val => setTheme(val)}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Theme" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="light">Light Mode</SelectItem>
+                <SelectItem value="dark">Dark Mode</SelectItem>
+              </SelectContent>
+            </Select>
+
             <Select
               value={i18n.language}
               onValueChange={val => i18n.changeLanguage(val)}
