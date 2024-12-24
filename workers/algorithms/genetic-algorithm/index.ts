@@ -11,7 +11,10 @@ import type {
   GeneticAlgorithmSelectionMethod,
   SelectionFunction,
 } from './selection-functions'
-import type { GeneticAlgorithmMutationMethod } from './mutation-functions'
+import type {
+  GeneticAlgorithmMutationMethod,
+  MutationFunction,
+} from './mutation-functions'
 import GAMutationFunctions from './mutation-functions'
 import GACrossoverFunctions from './crossover-functions'
 import GASelectionFunctions from './selection-functions'
@@ -63,8 +66,22 @@ function crossoverPopulation(
   return newPopulation
 }
 
-function mutatePopulation() {
-  return []
+function mutatePopulation(
+  population: number[][],
+  mutationRate: number,
+  mutationFn: MutationFunction
+): number[][] {
+  const newPopulation = []
+
+  for (const individual of population) {
+    if (Math.random() < mutationRate) {
+      newPopulation.push(mutationFn(individual))
+    } else {
+      newPopulation.push(individual)
+    }
+  }
+
+  return newPopulation
 }
 
 export default function geneticAlgorithm(
@@ -112,6 +129,8 @@ export default function geneticAlgorithm(
       selectionFn,
       crossoverFn
     )
+
+    ga = mutatePopulation(ga, mutationRate, mutationFn)
 
     scores = ga.map(individual =>
       fitnessFunction.function(tf.tensor(individual))
