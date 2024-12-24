@@ -16,11 +16,15 @@ export enum SimulatedAnnealingDecreaseMethod {
   Geometric = 'geometric',
 }
 
+function getRandomNumber(min: number, max: number) {
+  return Math.random() * (max - min) + min
+}
+
 function initialGuess(lb: number[], ub: number[], fitnessFunction: any) {
   const n = lb.length + 1
   const guess = [
     Array.from({ length: n }, (_, i) => {
-      return Math.random() * (ub[i] - lb[i]) + lb[i]
+      return getRandomNumber(lb[i], ub[i])
     }),
   ]
 
@@ -29,10 +33,18 @@ function initialGuess(lb: number[], ub: number[], fitnessFunction: any) {
   return guess
 }
 
+function normalRandom() {
+  let u = 0
+  let v = 1
+  while (u === 0) u = Math.random() // Converting [0,1) to (0,1)
+  while (v === 0) v = Math.random()
+  return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v)
+}
+
 function epsonVector(guess: number[][]) {
   const epson = [
     Array.from({ length: guess[0].length - 1 }, () => {
-      return Math.random() * 2 - 1
+      return normalRandom()
     }),
   ]
 
@@ -50,9 +62,9 @@ function updateGuess(
 
   for (let j = 0; j < guess[0].length - 1; j++) {
     if (guess[0][j] + epson[0][j] > ub[j]) {
-      newGuess[0][j] = Math.random() * (ub[j] - lb[j]) + lb[j]
+      newGuess[0][j] = getRandomNumber(lb[j], ub[j])
     } else if (guess[0][j] + epson[0][j] < lb[j]) {
-      newGuess[0][j] = Math.random() * (ub[j] - lb[j]) + lb[j]
+      newGuess[0][j] = getRandomNumber(lb[j], ub[j])
     } else {
       newGuess[0][j] = guess[0][j] + epson[0][j]
     }
@@ -65,11 +77,16 @@ function updateGuess(
   return newGuess
 }
 
-function transposeConvergenceCurve(curve: number[]) {
-  return curve.map((bestFitness, index) => ({
-    index,
-    bestFitness,
-  }))
+function getRandomFraction() {
+  const randomBytes = crypto.getRandomValues(new Uint8Array(8))
+  let randomInt = 0
+
+  for (let i = 0; i < randomBytes.length; i++) {
+    randomInt = (randomInt << 8) | randomBytes[i]
+  }
+
+  // biome-ignore lint/style/useExponentiationOperator: <explanation>
+  return randomInt / (Math.pow(2, 64) - 1)
 }
 
 export default function simulatedAnnealing(
@@ -88,7 +105,7 @@ export default function simulatedAnnealing(
   const lb = Array(dimension).fill(fitnessFunction.lowerBound)
   const ub = Array(dimension).fill(fitnessFunction.upperBound)
 
-  let guess = initialGuess(lb, ub, fitnessFunction)
+  let guess = initialGuess(lb, ub, fitnessFunction.function)
   let epson = epsonVector(guess)
   let best = guess.slice()
   let fxBest = guess[0][dimension - 1]
@@ -101,10 +118,16 @@ export default function simulatedAnnealing(
     for (let repeat = 0; repeat < maxIterations; repeat++) {
       const fxOld = guess[0][dimension - 1]
       epson = epsonVector(guess)
-      const newGuess = updateGuess(guess, epson, lb, ub, fitnessFunction)
-      const fxNew = newGuess[0][dimension - 1]
+      const newGuess = updateGuess(
+        guess,
+        epson,
+        lb,
+        ub,
+        fitnessFunction.function
+      )
+      const fxNew = newGuess[0][dimension]
       const delta = fxNew - fxOld
-      const r = Math.random()
+      const r = getRandomFraction()
       const p = Math.exp(-delta / temperature)
 
       if (delta < 0 || r <= p) {
@@ -123,16 +146,16 @@ export default function simulatedAnnealing(
       temperature *= coolingRate
     }
 
-    convergenceCurve.push(best[0][dimension - 1])
+    convergenceCurve.push(best[0][dimension])
 
     onIteration({
-      convergenceCurve: transposeConvergenceCurve(convergenceCurve),
-      state: 'completed',
+      convergenceCurve,
+      state: 'running',
     })
   }
 
   onIteration({
-    convergenceCurve: transposeConvergenceCurve(convergenceCurve),
+    convergenceCurve,
     state: 'completed',
   })
 }

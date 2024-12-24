@@ -1,6 +1,7 @@
 import geneticAlgorithm from './genetic-algorithm'
 import grayWolfOptimization from './gray-wolf-optimization'
 import particleSwarmOptimization from './particle-swarm-optimization'
+import simulatedAnnealing from './simulated-annealing'
 
 export enum Algorithm {
   GeneticAlgorithm = 'genetic-algorithm',
@@ -12,7 +13,7 @@ export enum Algorithm {
 
 const Algorithms = {
   [Algorithm.GeneticAlgorithm]: geneticAlgorithm,
-  [Algorithm.SimulatedAnnealing]: () => null,
+  [Algorithm.SimulatedAnnealing]: simulatedAnnealing,
   [Algorithm.GrayWolfOptimization]: grayWolfOptimization,
   [Algorithm.HarmonySearch]: () => null,
   [Algorithm.ParticleSwarmOptimization]: particleSwarmOptimization,

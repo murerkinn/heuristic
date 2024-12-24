@@ -16,7 +16,7 @@ const schema = yup
     initialTemperature: yup.number().min(0).required(),
     coolingRate: yup.number().min(0).required(),
     maxIterations: yup.number().min(1).required(),
-    decreaseMethod: yup.string().oneOf(['arithmetic', 'geometric']).required(),
+    // decreaseMethod: yup.string().oneOf(['arithmetic', 'geometric']).required(),
   })
   .required()
 
@@ -24,7 +24,12 @@ type SimulatedAnnealingSettingsValues = yup.InferType<typeof schema>
 
 interface SimulatedAnnealingSettingsProps {
   values?: SimulatedAnnealingSettingsValues
-  onSubmit?: (values: SimulatedAnnealingSettingsValues) => void
+  onSubmit?: (
+    values: SimulatedAnnealingSettingsValues & {
+      decreaseMethod: SimulatedAnnealingDecreaseMethod
+      fitnessFunction: FitnessFunction
+    }
+  ) => void
 }
 
 export default function SimulatedAnnealingSettings({
@@ -52,9 +57,13 @@ export default function SimulatedAnnealingSettings({
     async (values: SimulatedAnnealingSettingsValues) => {
       if (!onSubmit_) return
 
-      onSubmit_(values)
+      onSubmit_({
+        ...values,
+        decreaseMethod,
+        fitnessFunction,
+      })
     },
-    []
+    [decreaseMethod, fitnessFunction, onSubmit_]
   )
 
   return (

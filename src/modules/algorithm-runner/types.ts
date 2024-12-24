@@ -1,9 +1,9 @@
 import type { Algorithm } from 'workers/algorithms'
-import { GeneticAlgorithmPayload } from 'workers/algorithms/genetic-algorithm'
-import { GrayWolfOptimizationPayload } from 'workers/algorithms/gray-wolf-optimization'
-import { HarmonySearchPayload } from 'workers/algorithms/harmony-search'
-import { ParticleSwarmOptimizationPayload } from 'workers/algorithms/particle-swarm-optimization'
-import { SimulatedAnnealingPayload } from 'workers/algorithms/simulated-annealing'
+import type { GeneticAlgorithmPayload } from 'workers/algorithms/genetic-algorithm'
+import type { GrayWolfOptimizationPayload } from 'workers/algorithms/gray-wolf-optimization'
+import type { HarmonySearchPayload } from 'workers/algorithms/harmony-search'
+import type { ParticleSwarmOptimizationPayload } from 'workers/algorithms/particle-swarm-optimization'
+import type { SimulatedAnnealingPayload } from 'workers/algorithms/simulated-annealing'
 
 export enum AlgorithmRunState {
   Pending = 'pending',
