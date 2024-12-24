@@ -1,12 +1,19 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 import { Button } from '@/components/ui/button'
 import { FormInput } from '@/components/ui/form-input'
-import { GeneticAlgorithmSelectionMethod } from 'workers/algorithms/genetic-algorithm/selection-functions'
 import { GeneticAlgorithmCrossoverMethod } from 'workers/algorithms/genetic-algorithm/crossover-functions'
+import { GeneticAlgorithmSelectionMethod } from 'workers/algorithms/genetic-algorithm/selection-functions'
+import { GeneticAlgorithmMutationMethod } from 'workers/algorithms/genetic-algorithm/mutation-functions'
+import GeneticAlgorithmSelectionFunctionDropdown from './selection-function-dropdown'
+import GeneticAlgorithmMutationFunctionDropdown from './mutation-function-dropdown'
+import GeneticAlgorithmCrossoverFunctionDropdown from './crossover-function-dropdown'
+import { useTranslation } from 'react-i18next'
+import FitnessFunctionDropdown from '@/modules/algorithm-runner/components/fitness-function-dropdown'
+import { FitnessFunction } from 'workers/fitness-functions'
 
 const schema = yup
   .object({
@@ -35,14 +42,6 @@ const schema = yup
       .min(1, 'Max iterations must be at least 1')
       .max(1000000, 'Max iterations must be at most 1000')
       .required('Max iterations is required'),
-    // selectionMethod: yup
-    //   .string()
-    //   .oneOf(Object.values(GeneticAlgorithmSelectionMethod))
-    //   .required(),
-    // crossoverMethod: yup
-    //   .string()
-    //   .oneOf(Object.values(GeneticAlgorithmCrossoverMethod))
-    //   .required(),
   })
   .required()
 
@@ -50,13 +49,21 @@ type GeneticAlgorithmSettingsValues = yup.InferType<typeof schema>
 
 interface GeneticAlgorithmSettingsProps {
   values?: GeneticAlgorithmSettingsValues
-  onSubmit?: (values: GeneticAlgorithmSettingsValues) => void
+  onSubmit?: (
+    values: GeneticAlgorithmSettingsValues & {
+      crossoverMethod: GeneticAlgorithmCrossoverMethod
+      selectionMethod: GeneticAlgorithmSelectionMethod
+      mutationMethod: GeneticAlgorithmMutationMethod
+    }
+  ) => void
 }
 
 export default function GeneticAlgorithmSettings({
   values,
   onSubmit: onSubmit_,
 }: GeneticAlgorithmSettingsProps) {
+  const { t } = useTranslation()
+
   const {
     register,
     handleSubmit,
@@ -67,36 +74,54 @@ export default function GeneticAlgorithmSettings({
     reValidateMode: 'onChange',
   })
 
+  const [mutationMethod, setMutationMethod] = useState(
+    GeneticAlgorithmMutationMethod.Swap
+  )
+  const [crossoverMethod, setCrossoverMethod] = useState(
+    GeneticAlgorithmCrossoverMethod.OnePoint
+  )
+  const [selectionMethod, setSelectionMethod] = useState(
+    GeneticAlgorithmSelectionMethod.Tournament
+  )
+  const [fitnessFunction, setFitnessFunction] = useState(FitnessFunction.Ackley)
+
   const onSubmit = useCallback(
     (data: GeneticAlgorithmSettingsValues) => {
       if (!onSubmit_) return
 
-      onSubmit_(data)
+      onSubmit_({ ...data, selectionMethod, crossoverMethod, mutationMethod })
     },
     [onSubmit_]
   )
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="grid gap-4 min-w-[800px]"
+    >
       <div className="grid md:grid-cols-2 gap-4">
         <FormInput
           {...register('populationSize')}
           id="population-size"
-          label="Population Size"
+          label={t('algorithms.genetic-algorithm.form.population-size.label')}
           step={1}
           // min={100}
           // max={10000}
           type="number"
-          placeholder="e.g. 1000"
+          placeholder={t(
+            'algorithms.genetic-algorithm.form.population-size.placeholder'
+          )}
           error={errors.populationSize?.message as string}
         />
 
         <FormInput
           {...register('dimension')}
           id="dimensions"
-          label="Dimensions"
+          label={t('algorithms.genetic-algorithm.form.dimension.label')}
           type="number"
-          placeholder="e.g. 10"
+          placeholder={t(
+            'algorithms.genetic-algorithm.form.dimension.placeholder'
+          )}
           // min={5}
           // max={50}
           step={1}
@@ -104,47 +129,83 @@ export default function GeneticAlgorithmSettings({
         />
       </div>
 
-      <div className="grid md:grid-cols-2 gap-2">
+      <div className="grid md:grid-cols-2 gap-4">
+        <GeneticAlgorithmCrossoverFunctionDropdown
+          value={crossoverMethod}
+          onChange={setCrossoverMethod}
+        />
+
         <FormInput
           {...register('crossoverRate')}
           id="crossover-rate"
-          label="Crossover Rate"
+          label={t('algorithms.genetic-algorithm.form.crossover-rate.label')}
           type="number"
           // min={0}
           // max={1}
           step={0.1}
-          placeholder="e.g. 70"
+          placeholder={t(
+            'algorithms.genetic-algorithm.form.dimension.placeholder'
+          )}
           error={errors.crossoverRate?.message as string}
+        />
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-4">
+        <GeneticAlgorithmMutationFunctionDropdown
+          value={mutationMethod}
+          onChange={setMutationMethod}
         />
 
         <FormInput
           {...register('mutationRate')}
           id="mutation-rate"
-          label="Mutation Rate"
+          label={t('algorithms.genetic-algorithm.form.mutation-rate.label')}
           type="number"
           // min={0}
           // max={1}
           step={0.1}
-          placeholder="e.g. 20"
+          placeholder={t(
+            'algorithms.genetic-algorithm.form.mutation-rate.placeholder'
+          )}
           error={errors.mutationRate?.message as string}
+        />
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-4">
+        <GeneticAlgorithmSelectionFunctionDropdown
+          value={selectionMethod}
+          onChange={setSelectionMethod}
         />
 
         <FormInput
           {...register('numberOfGenerations')}
           id="max-iterations"
-          label="Max Iterations"
+          label={t(
+            'algorithms.genetic-algorithm.form.number-of-generations.label'
+          )}
           type="number"
           // min={0}
           // max={1}
           step={0.1}
-          placeholder="e.g. 20"
+          placeholder={t(
+            'algorithms.genetic-algorithm.form.number-of-generations.placeholder'
+          )}
           error={errors.numberOfGenerations?.message as string}
+        />
+      </div>
+
+      <div>
+        <FitnessFunctionDropdown
+          value={fitnessFunction}
+          onChange={setFitnessFunction}
         />
       </div>
 
       {onSubmit_ ? (
         <div className="flex flex-row items-center justify-end gap-1">
-          <Button type="submit">Save</Button>
+          <Button type="submit">
+            {t('algorithms.genetic-algorithm.form.save')}
+          </Button>
         </div>
       ) : null}
     </form>

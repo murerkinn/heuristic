@@ -8,6 +8,10 @@ const GACrossoverFunctions = {
   twoPointCrossover,
 }
 
-export enum GeneticAlgorithmCrossoverMethod {}
+export enum GeneticAlgorithmCrossoverMethod {
+  Uniform = 'uniform-crossover',
+  OnePoint = 'one-point-crossover',
+  TwoPoint = 'two-point-crossover',
+}
 
 export default GACrossoverFunctions

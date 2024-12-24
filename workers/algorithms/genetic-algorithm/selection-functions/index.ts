@@ -1,11 +1,23 @@
 import rouletteWheelSelection from './roulette-wheel-selection'
 import tournamentSelection from './tournament-selection'
 
-const GASelectionFunctions = {
-  tournamentSelection,
-  rouletteWheelSelection,
+type SelectionFunction = (
+  population: number[][],
+  fitnesses: number[],
+  selectionCount: number
+) => number[][]
+
+export enum GeneticAlgorithmSelectionMethod {
+  Tournament = 'tournament-selection',
+  RouletteWheel = 'roulette-wheel-selection',
 }
 
-export enum GeneticAlgorithmSelectionMethod {}
+const GASelectionFunctions: Record<
+  GeneticAlgorithmSelectionMethod,
+  SelectionFunction
+> = {
+  [GeneticAlgorithmSelectionMethod.Tournament]: tournamentSelection,
+  [GeneticAlgorithmSelectionMethod.RouletteWheel]: rouletteWheelSelection,
+}
 
 export default GASelectionFunctions
