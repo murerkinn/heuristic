@@ -91,7 +91,7 @@ export default function GeneticAlgorithmSettings({
 
       onSubmit_({ ...data, selectionMethod, crossoverMethod, mutationMethod })
     },
-    [onSubmit_]
+    [onSubmit_, selectionMethod, crossoverMethod, mutationMethod]
   )
 
   return (

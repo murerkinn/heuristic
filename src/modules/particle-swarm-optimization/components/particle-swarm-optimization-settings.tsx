@@ -66,7 +66,7 @@ export default function ParticleSwarmOptimizationSettings({
         fitnessFunction,
       })
     },
-    [onSubmit_]
+    [onSubmit_, fitnessFunction]
   )
 
   return (

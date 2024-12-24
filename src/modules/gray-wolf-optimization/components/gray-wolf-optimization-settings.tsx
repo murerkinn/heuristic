@@ -59,7 +59,7 @@ export default function GrayWolfOptimizationSettings({
         fitnessFunction,
       })
     },
-    [onSubmit_]
+    [onSubmit_, fitnessFunction]
   )
 
   return (
