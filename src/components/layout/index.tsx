@@ -10,6 +10,7 @@ import { GitHubLogoIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'react-i18next'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -17,6 +18,7 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   const { route } = useRouter()
+  const { t } = useTranslation()
 
   return (
     <div className="grid h-screen w-full pl-[53px]">
@@ -37,7 +39,7 @@ export default function Layout({ children }: LayoutProps) {
                   className={cn('rounded-lg', {
                     'bg-muted': route === '/',
                   })}
-                  aria-label="Playground"
+                  aria-label={t('playground')}
                 >
                   <SquareTerminal className="size-5" />
                 </Button>
@@ -45,7 +47,7 @@ export default function Layout({ children }: LayoutProps) {
             </TooltipTrigger>
 
             <TooltipContent side="right" sideOffset={5}>
-              Playground
+              {t('playground')}
             </TooltipContent>
           </Tooltip>
         </nav>

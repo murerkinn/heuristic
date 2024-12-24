@@ -1,17 +1,154 @@
 {
-  "summary": "Summary",
+  "navigation": {
+    "playground": "Playground"
+  },
+  "algorithm-runner": {
+    "tabs": {
+      "summary": "Summary",
+      "start-new": "Start New"
+    },
+    "algorithm-dropdown": {
+      "label": "Algorithm",
+      "placeholder": "Select an algorithm"
+    },
+    "fitness-function-dropdown": {
+      "label": "Fitness Function",
+      "placeholder": "Select a fitness function"
+    }
+  },
   "algorithms": {
     "genetic-algorithm": {
       "name": "Genetic Algorithm",
-      "description": "A genetic algorithm is a search heuristic that is inspired by Charles Darwin’s theory of natural evolution. This algorithm reflects the process of natural selection where the fittest individuals are selected for reproduction in order to produce offspring of the next generation."
+      "description": "A genetic algorithm is a search heuristic that is inspired by Charles Darwin’s theory of natural evolution. This algorithm reflects the process of natural selection where the fittest individuals are selected for reproduction in order to produce offspring of the next generation.",
+      "crossover-function-dropdown": {
+        "label": "Crossover Function",
+        "placeholder": "Select a crossover function"
+      },
+      "mutation-function-dropdown": {
+        "label": "Mutation Function",
+        "placeholder": "Select a mutation function"
+      },
+      "selection-function-dropdown": {
+        "label": "Selection Function",
+        "placeholder": "Select a selection function"
+      },
+      "crossover-functions": {
+        "uniform-crossover": {
+          "name": "Uniform Crossover",
+          "description": ""
+        },
+        "one-point-crossover": {
+          "name": "One Point Crossover",
+          "description": ""
+        },
+        "two-point-crossover": {
+          "name": "Two Point Crossover",
+          "description": ""
+        }
+      },
+      "mutation-functions": {
+        "swap-mutation": {
+          "name": "Swap Mutation",
+          "description": ""
+        },
+        "scramble-mutation": {
+          "name": "Scramble Mutation",
+          "description": ""
+        }
+      },
+      "selection-functions": {
+        "tournament-selection": {
+          "name": "Tournament Selection",
+          "description": ""
+        },
+        "roulette-wheel-selection": {
+          "name": "Roulette Wheel Selection",
+          "description": ""
+        }
+      },
+      "form": {
+        "population-size": {
+          "label": "Population Size",
+          "placeholder": "e.g. 1000"
+        },
+        "dimension": {
+          "label": "Dimensions",
+          "placeholder": "e.g. 10"
+        },
+        "crossover-rate": {
+          "label": "Crossover Rate",
+          "placeholder": "e.g. 0.8"
+        },
+        "mutation-rate": {
+          "label": "Mutation Rate",
+          "placeholder": "e.g. 0.2"
+        },
+        "number-of-generations": {
+          "label": "Number of Generations",
+          "placeholder": "e.g. 100"
+        },
+        "save": "Save"
+      }
     },
     "simulated-annealing": {
       "name": "Simulated Annealing",
-      "description": "Simulated annealing is a probabilistic technique used for finding an approximate solution to an optimization problem. To find the optimal solution, the algorithm starts with a large random solution space and iteratively shrinks it down to the best solution."
+      "description": "Simulated annealing is a probabilistic technique used for finding an approximate solution to an optimization problem. To find the optimal solution, the algorithm starts with a large random solution space and iteratively shrinks it down to the best solution.",
+      "decrease-method-dropdown": {
+        "label": "Decrease Method",
+        "placeholder": "Select a decrease method"
+      },
+      "decrease-methods": {
+        "arithmetic": {
+          "name": "Arithmetic",
+          "description": ""
+        },
+        "geometric": {
+          "name": "Geometric",
+          "description": ""
+        }
+      },
+      "form": {
+        "dimension": {
+          "label": "Dimensions",
+          "placeholder": "e.g. 10"
+        },
+        "max-iterations": {
+          "label": "Max Iterations",
+          "placeholder": "e.g. 1000"
+        },
+        "initial-temperature": {
+          "label": "Initial Temperature",
+          "placeholder": "e.g. 1000"
+        },
+        "cooling-rate": {
+          "label": "Cooling Rate",
+          "placeholder": "e.g. 0.1"
+        },
+        "save": "Save"
+      }
     },
     "gray-wolf-optimization": {
       "name": "Gray Wolf Optimization",
-      "description": "Gray wolf optimization is a metaheuristic algorithm inspired by the social hierarchy and hunting mechanism of gray wolves. The algorithm is based on the leadership hierarchy and hunting mechanism of gray wolves in nature."
+      "description": "Gray wolf optimization is a metaheuristic algorithm inspired by the social hierarchy and hunting mechanism of gray wolves. The algorithm is based on the leadership hierarchy and hunting mechanism of gray wolves in nature.",
+      "form": {
+        "population-size": {
+          "label": "Population Size",
+          "placeholder": "e.g. 1000"
+        },
+        "dimension": {
+          "label": "Dimensions",
+          "placeholder": "e.g. 10"
+        },
+        "number-of-generations": {
+          "label": "Number of Generations",
+          "placeholder": "e.g. 1000"
+        },
+        "alpha": {
+          "label": "Alpha (A)",
+          "placeholder": "e.g. 1000"
+        },
+        "save": "Save"
+      }
     },
     "harmony-search": {
       "name": "Harmony Search",
@@ -19,7 +156,56 @@
     },
     "particle-swarm-optimization": {
       "name": "Particle Swarm Optimization",
-      "description": "Particle swarm optimization is a population-based stochastic optimization technique inspired by the social behavior of birds flocking or fish schooling. The algorithm is based on the social behavior of individuals in a group."
+      "description": "Particle swarm optimization is a population-based stochastic optimization technique inspired by the social behavior of birds flocking or fish schooling. The algorithm is based on the social behavior of individuals in a group.",
+      "form": {
+        "population-size": {
+          "label": "Population Size",
+          "placeholder": "e.g. 1000"
+        },
+        "dimension": {
+          "label": "Dimensions",
+          "placeholder": "e.g. 10"
+        },
+        "max-iterations": {
+          "label": "Max Iterations",
+          "placeholder": "e.g. 1000"
+        },
+        "save": "Save"
+      }
+    }
+  },
+  "fitness-functions": {
+    "ackley": {
+      "name": "Ackley",
+      "description": ""
+    },
+    "dixonprice": {
+      "name": "Dixon-Price",
+      "description": ""
+    },
+    "griewank": {
+      "name": "Griewank",
+      "description": ""
+    },
+    "rastrigin": {
+      "name": "Rastrigin",
+      "description": ""
+    },
+    "rosenbrock": {
+      "name": "Rosenbrock",
+      "description": ""
+    },
+    "schwefel": {
+      "name": "Schwefel",
+      "description": ""
+    },
+    "sphere": {
+      "name": "Sphere",
+      "description": ""
+    },
+    "zakharov": {
+      "name": "Zakharov",
+      "description": ""
     }
   }
 }

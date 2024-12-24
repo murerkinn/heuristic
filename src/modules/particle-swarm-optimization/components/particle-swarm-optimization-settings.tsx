@@ -4,6 +4,7 @@ import FitnessFunctionDropdown from '@/modules/algorithm-runner/components/fitne
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { FitnessFunction } from 'workers/fitness-functions'
 import * as yup from 'yup'
 
@@ -42,6 +43,8 @@ export default function ParticleSwarmOptimizationSettings({
   values,
   onSubmit: onSubmit_,
 }: ParticleSwarmOptimizationSettingsProps) {
+  const { t } = useTranslation()
+
   const {
     register,
     handleSubmit,
@@ -51,6 +54,7 @@ export default function ParticleSwarmOptimizationSettings({
     defaultValues: values,
     reValidateMode: 'onChange',
   })
+
   const [fitnessFunction, setFitnessFunction] = useState(FitnessFunction.Ackley)
 
   const onSubmit = useCallback(
@@ -71,21 +75,29 @@ export default function ParticleSwarmOptimizationSettings({
         <FormInput
           {...register('populationSize')}
           id="population-size"
-          label="Population Size"
+          label={t(
+            'algorithms.particle-swarm-optimization.form.population-size.label'
+          )}
           step={1}
           // min={100}
           // max={10000}
           type="number"
-          placeholder="e.g. 1000"
+          placeholder={t(
+            'algorithms.particle-swarm-optimization.form.population-size.placeholder'
+          )}
           error={errors.populationSize?.message as string}
         />
 
         <FormInput
           {...register('dimension')}
           id="dimensions"
-          label="Dimensions"
+          label={t(
+            'algorithms.particle-swarm-optimization.form.dimension.label'
+          )}
           type="number"
-          placeholder="e.g. 10"
+          placeholder={t(
+            'algorithms.particle-swarm-optimization.form.dimension.placeholder'
+          )}
           // min={5}
           // max={50}
           step={1}
@@ -97,9 +109,13 @@ export default function ParticleSwarmOptimizationSettings({
         <FormInput
           {...register('maxIterations')}
           id="maxIterations"
-          label="Max Iterations"
+          label={t(
+            'algorithms.particle-swarm-optimization.form.max-iterations.label'
+          )}
           type="number"
-          placeholder="e.g. 10"
+          placeholder={t(
+            'algorithms.particle-swarm-optimization.form.max-iterations.placeholder'
+          )}
           // min={5}
           // max={50}
           step={1}
@@ -116,7 +132,9 @@ export default function ParticleSwarmOptimizationSettings({
 
       {onSubmit_ ? (
         <div className="flex flex-row items-center justify-end gap-1">
-          <Button type="submit">Save</Button>
+          <Button type="submit">
+            {t('algorithms.particle-swarm-optimization.form.save')}
+          </Button>
         </div>
       ) : null}
     </form>
