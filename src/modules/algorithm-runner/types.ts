@@ -9,6 +9,7 @@ export enum AlgorithmRunState {
   Pending = 'pending',
   Running = 'running',
   Completed = 'completed',
+  Error = 'error',
 }
 
 interface AlgorithmRunBase {
