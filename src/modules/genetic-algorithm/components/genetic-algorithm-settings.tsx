@@ -54,6 +54,7 @@ interface GeneticAlgorithmSettingsProps {
       crossoverMethod: GeneticAlgorithmCrossoverMethod
       selectionMethod: GeneticAlgorithmSelectionMethod
       mutationMethod: GeneticAlgorithmMutationMethod
+      fitnessFunction: FitnessFunction
     }
   ) => void
 }
@@ -89,9 +90,21 @@ export default function GeneticAlgorithmSettings({
     (data: GeneticAlgorithmSettingsValues) => {
       if (!onSubmit_) return
 
-      onSubmit_({ ...data, selectionMethod, crossoverMethod, mutationMethod })
+      onSubmit_({
+        ...data,
+        selectionMethod,
+        crossoverMethod,
+        mutationMethod,
+        fitnessFunction,
+      })
     },
-    [onSubmit_, selectionMethod, crossoverMethod, mutationMethod]
+    [
+      onSubmit_,
+      selectionMethod,
+      crossoverMethod,
+      mutationMethod,
+      fitnessFunction,
+    ]
   )
 
   return (
