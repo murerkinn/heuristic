@@ -1,8 +1,211 @@
 {
-  "summary": "Özet",
+  "navigation": {
+    "playground": "Oyun Alanı"
+  },
+  "algorithm-runner": {
+    "tabs": {
+      "summary": "Özet",
+      "start-new": "Yeni Başlat"
+    },
+    "algorithm-dropdown": {
+      "label": "Algoritma",
+      "placeholder": "Bir algoritma seçin"
+    },
+    "fitness-function-dropdown": {
+      "label": "Fitness Fonksiyonu",
+      "placeholder": "Bir fitness fonksiyonu seçin"
+    }
+  },
   "algorithms": {
     "genetic-algorithm": {
-      "name": "Genetik Algoritma"
+      "name": "Genetik Algoritma",
+      "description": "Genetik algoritma, Charles Darwin’ın doğal evrim teorisinden ilham alan bir arama sezgisidir. Bu algoritma, en uygun bireylerin bir sonraki neslin üremesi için seçildiği doğal seçilim sürecini yansıtır.",
+      "crossover-function-dropdown": {
+        "label": "Çaprazlama Fonksiyonu",
+        "placeholder": "Bir çaprazlama fonksiyonu seçin"
+      },
+      "mutation-function-dropdown": {
+        "label": "Mutasyon Fonksiyonu",
+        "placeholder": "Bir mutasyon fonksiyonu seçin"
+      },
+      "selection-function-dropdown": {
+        "label": "Seçim Fonksiyonu",
+        "placeholder": "Bir seçim fonksiyonu seçin"
+      },
+      "crossover-functions": {
+        "uniform-crossover": {
+          "name": "Uniform Çaprazlama",
+          "description": ""
+        },
+        "one-point-crossover": {
+          "name": "Tek Noktalı Çaprazlama",
+          "description": ""
+        },
+        "two-point-crossover": {
+          "name": "İki Noktalı Çaprazlama",
+          "description": ""
+        }
+      },
+      "mutation-functions": {
+        "swap-mutation": {
+          "name": "Değişim Mutasyonu",
+          "description": ""
+        },
+        "scramble-mutation": {
+          "name": "Karıştırma Mutasyonu",
+          "description": ""
+        }
+      },
+      "selection-functions": {
+        "tournament-selection": {
+          "name": "Turnuva Seçimi",
+          "description": ""
+        },
+        "roulette-wheel-selection": {
+          "name": "Rulet Çarkı Seçimi",
+          "description": ""
+        }
+      },
+      "form": {
+        "population-size": {
+          "label": "Popülasyon Büyüklüğü",
+          "placeholder": "ör. 1000"
+        },
+        "dimension": {
+          "label": "Boyutlar",
+          "placeholder": "ör. 10"
+        },
+        "crossover-rate": {
+          "label": "Çaprazlama Oranı",
+          "placeholder": "ör. 0.8"
+        },
+        "mutation-rate": {
+          "label": "Mutasyon Oranı",
+          "placeholder": "ör. 0.2"
+        },
+        "number-of-generations": {
+          "label": "Nesil Sayısı",
+          "placeholder": "e.g. 100"
+        },
+        "save": "Kaydet"
+      }
+    },
+    "simulated-annealing": {
+      "name": "Simulated Annealing",
+      "description": "Simulated annealing is a probabilistic technique used for finding an approximate solution to an optimization problem. To find the optimal solution, the algorithm starts with a large random solution space and iteratively shrinks it down to the best solution.",
+      "decrease-method-dropdown": {
+        "label": "Decrease Method",
+        "placeholder": "Select a decrease method"
+      },
+      "decrease-methods": {
+        "arithmetic": {
+          "name": "Arithmetic",
+          "description": ""
+        },
+        "geometric": {
+          "name": "Geometric",
+          "description": ""
+        }
+      },
+      "form": {
+        "dimension": {
+          "label": "Boyutlar",
+          "placeholder": "ör. 10"
+        },
+        "max-iterations": {
+          "label": "Max Iterations",
+          "placeholder": "ör. 1000"
+        },
+        "initial-temperature": {
+          "label": "Initial Temperature",
+          "placeholder": "ör. 1000"
+        },
+        "cooling-rate": {
+          "label": "Cooling Rate",
+          "placeholder": "e.g. 0.1"
+        },
+        "save": "Kaydet"
+      }
+    },
+    "gray-wolf-optimization": {
+      "name": "Gray Wolf Optimization",
+      "description": "Gray wolf optimization is a metaheuristic algorithm inspired by the social hierarchy and hunting mechanism of gray wolves. The algorithm is based on the leadership hierarchy and hunting mechanism of gray wolves in nature.",
+      "form": {
+        "population-size": {
+          "label": "Popülasyon Büyüklüğü",
+          "placeholder": "ör. 1000"
+        },
+        "dimension": {
+          "label": "Boyutlar",
+          "placeholder": "ör. 10"
+        },
+        "number-of-generations": {
+          "label": "Nesil Sayısı",
+          "placeholder": "ör. 1000"
+        },
+        "alpha": {
+          "label": "Alpha (A)",
+          "placeholder": "ör. 1000"
+        },
+        "save": "Kaydet"
+      }
+    },
+    "harmony-search": {
+      "name": "Harmony Search",
+      "description": "Harmony search is a metaheuristic algorithm inspired by the musical improvisation process. The algorithm is based on the improvisation process of musicians in searching for a better state of harmony."
+    },
+    "particle-swarm-optimization": {
+      "name": "Particle Swarm Optimization",
+      "description": "Particle swarm optimization is a population-based stochastic optimization technique inspired by the social behavior of birds flocking or fish schooling. The algorithm is based on the social behavior of individuals in a group.",
+      "form": {
+        "population-size": {
+          "label": "Popülasyon Büyüklüğü",
+          "placeholder": "ör. 1000"
+        },
+        "dimension": {
+          "label": "Boyutlar",
+          "placeholder": "ör. 10"
+        },
+        "max-iterations": {
+          "label": "Max Iterations",
+          "placeholder": "ör. 1000"
+        },
+        "save": "Kaydet"
+      }
+    }
+  },
+  "fitness-functions": {
+    "ackley": {
+      "name": "Ackley",
+      "description": ""
+    },
+    "dixonprice": {
+      "name": "Dixon-Price",
+      "description": ""
+    },
+    "griewank": {
+      "name": "Griewank",
+      "description": ""
+    },
+    "rastrigin": {
+      "name": "Rastrigin",
+      "description": ""
+    },
+    "rosenbrock": {
+      "name": "Rosenbrock",
+      "description": ""
+    },
+    "schwefel": {
+      "name": "Schwefel",
+      "description": ""
+    },
+    "sphere": {
+      "name": "Sphere",
+      "description": ""
+    },
+    "zakharov": {
+      "name": "Zakharov",
+      "description": ""
     }
   }
 }
