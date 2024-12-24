@@ -6,7 +6,8 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart'
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
-import { AlgorithmRun } from '../types'
+import type { AlgorithmRun } from '../types'
+import { useMemo } from 'react'
 
 const chartConfig = {
   desktop: {
@@ -20,13 +21,20 @@ interface RunChartProps {
 }
 
 export default function RunChart({ run }: RunChartProps) {
+  const data = useMemo(() => {
+    return run.convergenceCurve.map((point, index) => ({
+      index,
+      bestFitness: point,
+    }))
+  }, [run])
+
   return (
     <Card>
       <CardContent className="p-4">
         <ChartContainer config={chartConfig}>
           <LineChart
             accessibilityLayer
-            data={run.convergenceCurve}
+            data={data}
             margin={{
               left: 12,
               right: 12,
