@@ -16,7 +16,7 @@ export default function RunnerTabs() {
   const shouldShowStartNewTab = runs.length < MAX_RUNS
 
   return (
-    <Tabs defaultValue="summary" className="w-full">
+    <Tabs defaultValue="new" className="w-full">
       <TabsList className="gap-2">
         {runs.map((run, index) => (
           <TabsTrigger
