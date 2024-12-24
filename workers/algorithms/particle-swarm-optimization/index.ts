@@ -10,13 +10,6 @@ export type ParticleSwarmOptimizationPayload = {
   fitnessFunction: FitnessFunction
 }
 
-function transposeConvergenceCurve(curve: number[]) {
-  return curve.map((bestFitness, index) => ({
-    index,
-    bestFitness,
-  }))
-}
-
 export default function particleSwarmOptimization(
   payload: ParticleSwarmOptimizationPayload,
   onIteration: (...args: any) => void
@@ -105,13 +98,13 @@ export default function particleSwarmOptimization(
     convergenceCurve.push(gBestScore)
 
     onIteration({
-      convergenceCurve: transposeConvergenceCurve(convergenceCurve),
+      convergenceCurve,
       state: 'running',
     })
   }
 
   onIteration({
-    convergenceCurve: transposeConvergenceCurve(convergenceCurve),
+    convergenceCurve,
     state: 'completed',
   })
 }
