@@ -1,7 +1,7 @@
 import rouletteWheelSelection from './roulette-wheel-selection'
 import tournamentSelection from './tournament-selection'
 
-type SelectionFunction = (
+export type SelectionFunction = (
   population: number[][],
   fitnesses: number[],
   selectionCount: number
